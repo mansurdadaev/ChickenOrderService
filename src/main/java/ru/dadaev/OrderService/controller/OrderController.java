@@ -8,15 +8,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.dadaev.OrderService.dto.OrderRequestDto;
 import ru.dadaev.OrderService.dto.OrderResponseDto;
+import ru.dadaev.OrderService.service.OrderService;
 
 @RestController
 @RequestMapping("/orders")
 @Tag(name = "Orders", description = "Operations about chicken orders")
 public class OrderController {
 
+    private final OrderService orderService;
+
+    public OrderController(OrderService orderService) {
+        this.orderService = orderService;
+    }
+
     @PostMapping
     @Operation(summary = "Create new order")
     public OrderResponseDto createOrder(@RequestBody OrderRequestDto request) {
-        return new OrderResponseDto("accepted", request.getId());
+        return orderService.createOrder(request);
     }
 }
