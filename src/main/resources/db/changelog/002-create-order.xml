@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.22.xsd">
+
+    <changeSet id="002-create-order" author="codex">
+        <createTable tableName="orders">
+            <column name="id" type="BIGSERIAL">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="customer_id" type="BIGINT">
+                <constraints nullable="false" />
+            </column>
+            <column name="delivery_date" type="DATE" />
+            <column name="time_slot" type="VARCHAR(255)" />
+            <column name="additional_requirements" type="VARCHAR(255)" />
+            <column name="created_at" type="TIMESTAMP" />
+        </createTable>
+        <addForeignKeyConstraint baseTableName="orders"
+                                 baseColumnNames="customer_id"
+                                 referencedTableName="customers"
+                                 referencedColumnNames="id"
+                                 constraintName="fk_orders_customer"/>
+    </changeSet>
+
+</databaseChangeLog>
