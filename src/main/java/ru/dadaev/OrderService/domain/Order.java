@@ -1,23 +1,40 @@
 package ru.dadaev.OrderService.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import java.time.Instant;
-import java.util.UUID;
+import jakarta.persistence.*;
+import lombok.Data;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
-@Getter
-@Setter
+@Data
 public class Order {
+
     @Id
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private String status;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
 
-    private Instant timestamp;
+    @ElementCollection
+    @CollectionTable(name = "order_items", joinColumns = @JoinColumn(name = "order_id"))
+    private List<OrderItem> items = new ArrayList<>();
+
+    @Embedded
+    private DeliveryInfo delivery;
+
+    private String additionalRequirements;
+
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    public void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
 }
+
+

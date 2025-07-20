@@ -4,10 +4,8 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ProductDto {
+public class ItemDto {
     private String type;
-    private String cut;
     private double quantityKg;
     private int packaging;
-    private List<String> qualityStandards;
 }
