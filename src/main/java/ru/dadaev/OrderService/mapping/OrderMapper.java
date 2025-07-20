@@ -21,10 +21,17 @@ public interface OrderMapper {
     @Mapping(source = "timestamp", target = "createdAt")
     Order toEntity(OrderRequestDto dto);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "name", source = "contactPerson")
+    @Mapping(target = "address", ignore = true)
+    @Mapping(target = "orders", ignore = true)
     Customer toEntity(CustomerDto dto);
 
+    @Mapping(target = "timeSlot", ignore = true)
     DeliveryInfo toEntity(DeliveryDto dto);
 
+    @Mapping(target = "productId", ignore = true)
+    @Mapping(target = "requestedKg", source = "quantityKg")
     OrderItem toEntity(ItemDto dto);
 }
 
